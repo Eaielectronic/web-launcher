@@ -1,0 +1,228 @@
+:root {
+    --mc-green: #3ca224;
+    --mc-green-hover: #45b929;
+    --mc-gray: #3B3B3B;
+    --mc-dark: #121212;
+    --mc-text: #E5E5E5;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--mc-dark);
+    color: var(--mc-text);
+    /* Very subtle dirt background pattern */
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20z' fill='%231d1d1d' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+h1, h2, h3 {
+    font-family: 'VT323', monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(20, 20, 20, 0.95);
+    border-bottom: 3px solid #333;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-family: 'VT323', monospace;
+    font-size: 28px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo i {
+    color: var(--mc-green);
+}
+
+.nav-links a {
+    color: #aaa;
+    text-decoration: none;
+    margin-left: 30px;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: white;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.hero-title {
+    font-size: 64px;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 4px 4px 0 #000;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+/* Download Card Mac */
+.download-card {
+    background: rgba(40, 40, 40, 0.9);
+    border: 2px solid #555;
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: inline-block;
+}
+
+.download-card h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.mac-warning {
+    margin-top: 25px;
+    background: rgba(255, 60, 60, 0.1);
+    border-left: 4px solid #ff5555;
+    padding: 15px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.mac-warning code {
+    background: #111;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    display: inline-block;
+    margin-top: 5px;
+    color: #ffaaaa;
+}
+
+.mac-warning ol {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    font-family: 'VT323', monospace;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background-color: var(--mc-green);
+    color: white;
+    border: 3px solid #1f5712;
+    border-top-color: #55d636;
+    border-left-color: #55d636;
+    box-shadow: inset -2px -4px rgba(0,0,0,0.2);
+    margin-top: 15px;
+}
+
+.btn-primary:hover {
+    background-color: var(--mc-green-hover);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #555;
+    color: white;
+    border: 3px solid #333;
+    border-top-color: #777;
+    border-left-color: #777;
+    margin-top: 10px;
+}
+
+.btn-secondary:hover {
+    background-color: #666;
+}
+
+/* Platform Tabs */
+.platform-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    background: rgba(30, 30, 30, 0.8);
+    border: 2px solid #555;
+    color: #aaa;
+    padding: 15px 30px;
+    font-size: 20px;
+    font-family: 'VT323', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tab-btn:hover {
+    background: rgba(50, 50, 50, 0.9);
+    color: white;
+}
+
+.tab-btn.active {
+    background: rgba(80, 80, 80, 0.9);
+    border-color: var(--mc-text);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.downloads-container {
+    perspective: 1000px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid #333;
+    color: #666;
+    font-size: 14px;
+}

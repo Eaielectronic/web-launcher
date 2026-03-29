@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Télécharger LauncherCreat</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <i class="fas fa-cube"></i> LauncherCreat
+        </div>
+        <nav class="nav-links">
+            <a href="#">Accueil</a>
+            <a href="#">Boutique</a>
+            <a href="#">Serveur</a>
+            <a href="#" class="active">Télécharger</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">LE LAUNCHER OFFICIEL</h1>
+            <p class="hero-subtitle">Rejoignez l'aventure instantanément. Téléchargez le launcher, connectez-vous et plongez au cœur du serveur. Tout est configuré pour vous.</p>
+            
+            <div class="platform-tabs">
+                <button class="tab-btn active" onclick="showPlatform('mac')"><i class="fab fa-apple"></i> macOS</button>
+                <button class="tab-btn" onclick="showPlatform('win')"><i class="fab fa-windows"></i> Windows</button>
+                <button class="tab-btn" onclick="showPlatform('lin')"><i class="fab fa-linux"></i> Linux</button>
+            </div>
+
+            <div class="downloads-container">
+                <!-- MAC DETAILS -->
+                <div id="mac-details" class="download-card active-card">
+                    <i class="fab fa-apple fa-4x mb-3" style="color: #fff; margin-bottom: 15px;"></i>
+                    <h2>Version macOS</h2>
+                    <p style="color: #bbb; margin-bottom: 20px;">Support natif Apple Silicon & Intel (macOS 10.13+)</p>
+                    <a href="../frontend/dist/LauncherCreat-1.0.0.dmg" class="btn btn-primary" download>
+                        <i class="fas fa-download"></i> Télécharger .DMG
+                    </a>
+                    <div class="mac-warning" style="margin-top: 30px;">
+                        <p><i class="fas fa-shield-alt"></i> <strong>Note de sécurité macOS :</strong></p>
+                        <p>Si vous voyez "Application endommagée" ou "Développeur non identifié" :</p>
+                        <ol>
+                            <li>Ouvrez votre Terminal (Applications > Utilitaires)</li>
+                            <li>Collez la commande (utilisez <code>sudo</code> si l'app est dans Applications) :<br>
+                                <code>sudo xattr -cr /Applications/LauncherCreat.app</code>
+                            </li>
+                            <li>Ou faites <strong>Clic-droit > Ouvrir</strong> dans le Finder.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- WINDOWS DETAILS -->
+                <div id="win-details" class="download-card" style="display: none;">
+                    <i class="fab fa-windows fa-4x mb-3" style="color: #0078D7; margin-bottom: 15px;"></i>
+                    <h2>Version Windows</h2>
+                    <p style="color: #bbb; margin-bottom: 20px;">Compatible Windows 10 & 11 (Architecture <strong>x64</strong>)</p>
+                    <a href="../frontend/dist/LauncherCreat Setup 1.0.0.exe" class="btn btn-primary" download>
+                        <i class="fas fa-download"></i> Télécharger .EXE
+                    </a>
+                    <p style="margin-top: 25px; font-size: 14px; color: #888;">
+                        * Si l'écran SmartScreen s'affiche, cliquez sur "Informations complémentaires" puis sur "Exécuter quand même".
+                    </p>
+                </div>
+
+                <!-- LINUX DETAILS -->
+                <div id="lin-details" class="download-card" style="display: none;">
+                    <i class="fab fa-linux fa-4x mb-3" style="color: #FCC624; margin-bottom: 15px;"></i>
+                    <h2>Version Linux</h2>
+                    <p style="color: #bbb; margin-bottom: 20px;">Format universel AppImage (Architecture <strong>x64</strong>)</p>
+                    <a href="../frontend/dist/LauncherCreat-1.0.0.AppImage" class="btn btn-primary" download>
+                        <i class="fas fa-download"></i> Télécharger .AppImage
+                    </a>
+                    <div class="mac-warning" style="margin-top: 30px; border-color: #fcc624; background: rgba(252, 198, 36, 0.1);">
+                        <p><strong style="color: #fcc624;"><i class="fas fa-terminal"></i> Instructions :</strong></p>
+                        <ol>
+                            <li>Après le téléchargement, rendez le fichier exécutable.</li>
+                            <li><code>chmod +x "LauncherCreat-1.0.0.AppImage"</code></li>
+                            <li>Double-cliquez pour lancer le jeu.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function showPlatform(platformId) {
+            // Hide all details
+            document.querySelectorAll('.download-card').forEach(el => el.style.display = 'none');
+            // Remove active style from tabs
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // Show selected detail
+            document.getElementById(platformId + '-details').style.display = 'block';
+            // Mark tab as active
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>LauncherCreat - Not affiliated with Mojang AB.</p>
+    </footer>
+
+</body>
+</html>
