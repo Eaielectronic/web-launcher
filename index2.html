@@ -28,7 +28,7 @@
         /* Grilles */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
             margin-bottom: 50px;
         }
@@ -54,11 +54,43 @@
         }
         .card:hover { border-color: var(--mc-green); transform: translateY(-5px); background: rgba(45, 45, 45, 0.9); }
         
-        .card-info i { font-size: 2rem; color: var(--mc-green); margin-bottom: 15px; }
-        .card-title { font-family: 'VT323', monospace; font-size: 24px; margin-bottom: 8px; color: #fff; }
+        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .card-header i { font-size: 2rem; color: var(--mc-green); }
+        .card-title { font-family: 'VT323', monospace; font-size: 26px; color: #fff; line-height: 1; }
+        
+        /* Badges et Meta (Version & URL) */
+        .version-badge {
+            display: inline-block;
+            background: rgba(60, 162, 36, 0.2);
+            color: var(--mc-green-hover);
+            border: 1px solid var(--mc-green);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .url-box {
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid #333;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+            color: #888;
+            word-break: break-all; /* Empêche l'URL de déborder */
+            margin-bottom: 15px;
+            max-height: 40px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .url-box:hover { max-height: none; color: #aaa; }
+
         .card-desc { font-size: 14px; color: #aaa; margin-bottom: 15px; line-height: 1.4; }
 
-        .btn-sm { font-size: 14px; padding: 10px 15px; margin-top: auto; }
+        .btn-sm { font-size: 14px; padding: 10px 15px; margin-top: auto; text-align: center; }
 
         #loading { text-align: center; font-family: 'VT323', monospace; font-size: 30px; padding: 50px; }
     </style>
@@ -82,13 +114,11 @@
     </div>
 
     <div class="container">
-        <div id="loading"><i class="fas fa-cog fa-spin"></i> Chargement des fichiers...</div>
+        <div id="loading"><i class="fas fa-cog fa-spin"></i> Récupération des données...</div>
         
         <div id="content" style="display: none;">
             <!-- Infos Versions -->
-            <div class="version-banner" id="version-info">
-                <!-- Rempli par JS -->
-            </div>
+            <div class="version-banner" id="version-info"></div>
 
             <!-- Section Mods -->
             <h2 class="section-title"><i class="fas fa-puzzle-piece"></i> Les Mods</h2>
@@ -107,6 +137,18 @@
     <script>
         const JSON_URL = "https://raw.githubusercontent.com/Eaielectronic/Minecraft_launcher/refs/heads/main/liste.json";
 
+        // Fonction pour extraire la version depuis l'URL
+        function extractVersionFromUrl(url) {
+            // 1. On récupère juste le nom du fichier à la fin de l'URL
+            const filename = url.split('/').pop().replace('.jar', '').replace('.zip', '');
+            
+            // 2. On cherche une suite de chiffres séparés par des points (ex: 1.21.1 ou 3.0.6.1)
+            // On inclut aussi les caractères comme -, + ou les lettres qui suivent (ex: +neoforge)
+            const match = filename.match(/[0-9]+\.[0-9]+[a-zA-Z0-9\.\-\+]*/);
+            
+            return match ? match[0] : 'Version inconnue';
+        }
+
         async function fetchData() {
             try {
                 const response = await fetch(JSON_URL);
@@ -121,21 +163,26 @@
                     <div class="version-item">Minecraft <span>${data.minecraft_version}</span></div>
                     <div class="version-item">Forge/NeoForge <span>${data.forge_version}</span></div>
                     <div class="version-item">
-                        <a href="${data.forge_installer_url}" class="btn btn-secondary btn-sm">Installer Forge</a>
+                        <a href="${data.forge_installer_url}" class="btn btn-secondary btn-sm"><i class="fas fa-cogs"></i> Installer Forge</a>
                     </div>
                 `;
 
                 // 2. Afficher les Mods
                 const modsGrid = document.getElementById('mods-grid');
                 data.mods.forEach(mod => {
+                    const version = extractVersionFromUrl(mod.url);
                     modsGrid.innerHTML += `
                         <div class="card">
                             <div class="card-info">
-                                <i class="fas fa-file-code"></i>
-                                <div class="card-title">${mod.name}</div>
+                                <div class="card-header">
+                                    <i class="fas fa-file-code"></i>
+                                    <div class="card-title">${mod.name}</div>
+                                </div>
+                                <div class="version-badge"><i class="fas fa-tag"></i> v ${version}</div>
+                                <div class="url-box" title="${mod.url}">${mod.url}</div>
                             </div>
                             <a href="${mod.url}" class="btn btn-primary btn-sm" download>
-                                <i class="fas fa-download"></i> .JAR
+                                <i class="fas fa-download"></i> Télécharger .JAR
                             </a>
                         </div>
                     `;
@@ -144,15 +191,20 @@
                 // 3. Afficher les Shaders
                 const shadersGrid = document.getElementById('shaders-grid');
                 data.shaderpacks.forEach(shader => {
+                    const version = extractVersionFromUrl(shader.url);
                     shadersGrid.innerHTML += `
                         <div class="card">
                             <div class="card-info">
-                                <i class="fas fa-cloud-sun"></i>
-                                <div class="card-title">${shader.name}</div>
+                                <div class="card-header">
+                                    <i class="fas fa-cloud-sun"></i>
+                                    <div class="card-title">${shader.name}</div>
+                                </div>
+                                <div class="version-badge"><i class="fas fa-tag"></i> v ${version}</div>
                                 <div class="card-desc">${shader.description}</div>
+                                <div class="url-box" title="${shader.url}">${shader.url}</div>
                             </div>
                             <a href="${shader.url}" class="btn btn-primary btn-sm" download>
-                                <i class="fas fa-download"></i> .ZIP
+                                <i class="fas fa-download"></i> Télécharger .ZIP
                             </a>
                         </div>
                     `;
@@ -160,7 +212,7 @@
 
             } catch (error) {
                 console.error("Erreur:", error);
-                document.getElementById('loading').innerHTML = "Erreur de connexion au serveur de fichiers.";
+                document.getElementById('loading').innerHTML = '<i class="fas fa-exclamation-triangle" style="color: #ff5555;"></i> Erreur de connexion au serveur.';
             }
         }
 
