@@ -80,7 +80,7 @@
             font-family: monospace;
             font-size: 11px;
             color: #888;
-            word-break: break-all; /* Empêche l'URL de déborder */
+            word-break: break-all;
             margin-bottom: 15px;
             max-height: 40px;
             overflow: hidden;
@@ -91,6 +91,18 @@
         .card-desc { font-size: 14px; color: #aaa; margin-bottom: 15px; line-height: 1.4; }
 
         .btn-sm { font-size: 14px; padding: 10px 15px; margin-top: auto; text-align: center; }
+        
+        /* Bouton Spécial Pack ZIP */
+        .btn-zip {
+            background-color: #d35400;
+            border-color: #a04000;
+            border-top-color: #e59866;
+            border-left-color: #e59866;
+            font-size: 22px;
+            padding: 15px 40px;
+            margin-top: 20px;
+        }
+        .btn-zip:hover { background-color: #e67e22; }
 
         #loading { text-align: center; font-family: 'VT323', monospace; font-size: 30px; padding: 50px; }
     </style>
@@ -106,10 +118,18 @@
         </nav>
     </header>
 
-    <div class="hero" style="min-height: auto; padding: 60px 20px 20px 20px;">
+    <div class="hero" style="min-height: auto; padding: 60px 20px 40px 20px;">
         <div class="hero-content">
             <h1 class="hero-title">Installation Manuelle</h1>
             <p class="hero-subtitle">Retrouvez ici tous les composants nécessaires pour rejoindre le serveur sans notre launcher.</p>
+            
+            <!-- Bouton Pack Complet -->
+            <a href="https://github.com/Eaielectronic/Minecraft_launcher/releases/download/zip/dossier_1.21.1.zip" class="btn btn-primary btn-zip">
+                <i class="fas fa-file-archive"></i> Télécharger le Pack Complet (ZIP)
+            </a>
+            <p style="margin-top: 15px; font-size: 14px; color: #aaa;">
+                <i class="fas fa-info-circle"></i> Extrayez le contenu de ce dossier directement dans votre dossier <code>.minecraft</code>
+            </p>
         </div>
     </div>
 
@@ -121,7 +141,7 @@
             <div class="version-banner" id="version-info"></div>
 
             <!-- Section Mods -->
-            <h2 class="section-title"><i class="fas fa-puzzle-piece"></i> Les Mods</h2>
+            <h2 class="section-title"><i class="fas fa-puzzle-piece"></i> Téléchargement à l'unité</h2>
             <div class="grid" id="mods-grid"></div>
 
             <!-- Section Shaders -->
@@ -137,15 +157,9 @@
     <script>
         const JSON_URL = "https://raw.githubusercontent.com/Eaielectronic/Minecraft_launcher/refs/heads/main/liste.json";
 
-        // Fonction pour extraire la version depuis l'URL
         function extractVersionFromUrl(url) {
-            // 1. On récupère juste le nom du fichier à la fin de l'URL
             const filename = url.split('/').pop().replace('.jar', '').replace('.zip', '');
-            
-            // 2. On cherche une suite de chiffres séparés par des points (ex: 1.21.1 ou 3.0.6.1)
-            // On inclut aussi les caractères comme -, + ou les lettres qui suivent (ex: +neoforge)
             const match = filename.match(/[0-9]+\.[0-9]+[a-zA-Z0-9\.\-\+]*/);
-            
             return match ? match[0] : 'Version inconnue';
         }
 
@@ -157,7 +171,6 @@
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('content').style.display = 'block';
 
-                // 1. Afficher les infos générales
                 const infoBanner = document.getElementById('version-info');
                 infoBanner.innerHTML = `
                     <div class="version-item">Minecraft <span>${data.minecraft_version}</span></div>
@@ -167,7 +180,6 @@
                     </div>
                 `;
 
-                // 2. Afficher les Mods
                 const modsGrid = document.getElementById('mods-grid');
                 data.mods.forEach(mod => {
                     const version = extractVersionFromUrl(mod.url);
@@ -188,7 +200,6 @@
                     `;
                 });
 
-                // 3. Afficher les Shaders
                 const shadersGrid = document.getElementById('shaders-grid');
                 data.shaderpacks.forEach(shader => {
                     const version = extractVersionFromUrl(shader.url);
